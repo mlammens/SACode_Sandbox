@@ -681,13 +681,15 @@ if ( all( noChange == TRUE ) ) {
       # ******************************
       # If the user specified 'use stable age distribution', then change the values of the first column
       # of the StInit matrix to -1.
-      # If the user specified that these values should vary, then allow these values to vary interdependently
+      # If the user specified that these values should vary, than allow these values to vary independently
       if ( use.sad ) {
         # Set first column to -1, which tells RAMAS to use the Stable Age Distn
         mp.new$StInit <- mp.low$StInit
         mp.new$StInit[,1] <- -1
       } else {
         # Vary the Stage Initial Abundance values
+        #### Create a random multiplier matrix that is stage x stage
+        ####rand.mult <- matrix( runif( mp.low$Stages * pop.num ), pop.num, mp.low$Stages )
         mp.new$StInit <- round( ((mp.high$StInit - mp.low$StInit)*uni.rv[1]) + mp.low$StInit )
         uni.rv <- uni.rv[-1]
         ####print('uni.rv after stage initial abundance'); print(uni.rv)

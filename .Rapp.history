@@ -1,0 +1,247 @@
+dim(results$AvgStAb)
+36*8*100
+head(AvgStAb.vect)
+AvgStAb.vect[1:5]
+AvgStAb.vect[1:10]
+asb.first
+head(AvgStAb)
+AvgStAb[66869:66876]
+AvgStAb[3580:3600]
+as.matrix(AvgStAb[3580:3600])
+AvgStAb[3580:3600,drop=FALSE]
+as.matrix(AvgStAb[3580:3600,])
+AvgStAb[3580:3600,]
+foo <- vector()
+foo <- AvgStAb[3580:3600,]
+print(foo)
+bar <- AvgStAb[3570:3579,]
+bar
+rbind(bar,foo)
+cbind(bar,foo)
+Q
+sensitivity.setup('./')
+mp <- mp.read.results(bmtu.f)
+mp.res <- mp$mp.file$results
+mp.in <- mp$mp.file[1:52]
+dim(mp.res$AvgStAb)
+mp.res$AvgStAb[,,1]
+mp.in$PopData_df
+mp.res$AvgStAb[,,19]
+which(mp.res$AvgStAb==0.2430)
+mp.res$AvgStAb[18738]
+row(mp.res$AvgStAb)[18738]
+foo <- matrix(runif(16),4,4)
+foo
+foo[6]
+row(foo)[6]
+col(foo)[6]
+row(foo)[5]
+col(foo)[5]
+foo[5]
+ls()
+snpl.f <- '/Users/mlammens/Dropbox/RA-FL-Shore-Birds/SensitivityAnalysis/FLSNPL_NoCC_Ceiling/snpl1.mp'
+?ls
+ls(pattern='mp')
+rm(mp.in,mp.res)
+snpl.mp <- mp.read.results(snpl.f)
+snpl.mp$mp.file$results$AvgStAb
+mp.in <- snpl.mp$mp.file[1:52]
+str(mp.in)
+mp.in$DispDistFunc
+mp.in$DispDistFunc[2]
+mp.in$DispMatr
+?tapply
+?apply
+tapply(mp.in$DispMatr,2,mean)
+apply(mp.in$DispMatr,2,mean)
+mean(mp.in$DispMatr[,1])
+mean(mp.in$DispMatr[,2])
+mean(mp.in$DispMatr[,3])
+apply(mp.in$DispMatr,2,sum)
+?quantile
+disp.matr.colSums <- apply(mp.in$DispMatr,2,sum)
+quantile( disp.matr.colSums, prob= c(0.25,0.75))
+tot.disp.rate.quant <- quantile( disp.matr.colSums, prob = c(0.25,0.75))
+tot.disp.rate.quant
+tot.disp.rate.quant[1]
+source('mp.results.spatial.r')
+mp.results.spatial(snpl.f)
+foo <- mp.results.spatial(snpl.f)
+foo
+foo$Rmax
+write.csv(foo, 'temp.csv')
+ls()
+disp.matr.colSums
+mean(disp.matr.colSums)
+disp.matr.colMax <- apply( disp.matr, 2, max )
+mp.in$DispMatr
+apply(mp.in$DispMatr,2,max)
+mean(apply(mp.in$DispMatr,2,max))
+quantile(apply(mp.in$DispMatr,2,max), prob = c(.25,.75))
+bar <- mp.results.spatial(bmtu.f)
+bar
+ls()
+foo
+rm(foo)
+ls()
+rm(disp.matr.colSums)
+rm(tot.disp.rate.quant)
+ls()
+str(mp)
+rm(mp.in)
+ls()
+disp.matr <- mp$mp.file$DispMatr
+dim(disp.matr)
+apply( disp.matr, 2, sum )
+mean(apply( disp.matr, 2, sum ))
+write.csv(bar, 'temp.csv', append=TRUE)
+?write.csv
+mean(apply( disp.matr, 2, max ))
+disp.matr.colSums <- apply( disp.matr, 2, max )
+which(disp.matr.colSums>0)
+mean(which(disp.matr.colSums>0))
+mean(disp.matr.colSums[which(disp.matr.colSums>=0)])
+mean(disp.matr.colSums[which(disp.matr.colSums>0)])
+str(mp$mp.file$results)
+?array
+apply(mp$mp.file$results$PopInd,3,max)
+apply(mp$mp.file$results$PopInd,margin=3,max)
+apply(mp$mp.file$results$PopInd,MARGIN=3,max)
+apply(mp$mp.file$results$PopInd,MARGIN=1,max)
+apply(mp$mp.file$results$PopInd,MARGIN=2,max)
+apply(mp$mp.file$results$PopInd,MARGIN=c(2,3),max)
+PopInd <- mp$mp.file$results$PopInd
+PopInd[,,3]
+colSums(PopInd[,,3])
+apply(mp$mp.file$results$PopInd,MARGIN=c(2,3),max)
+apply(mp$mp.file$results$PopInd,MARGIN=c(2,3),sum)
+apply(mp$mp.file$results$PopInd,MARGIN=c(2,3),max)
+PopInd.Max <- apply(mp$mp.file$results$PopInd,MARGIN=c(2,3),max)
+dim(PopInd.Max()
+)
+dim(PopInd.Max)
+head(PopInd)
+str(mp$mp.file$results)
+PopInd.Max
+PopInd.Max.Mean <- PopInd.Max[1,]
+PopInd.Max.Mean
+which(PopInd.Max.Mean)
+which(PopInd.Max.Mean>0)
+Occupied.Pops <- which(PopInd.Max.Mean>0)
+ls()
+disp.matr[Occupied.Pops,Occupied.Pops]
+disp.matr[,3]
+disp.matr[3,]
+ls()
+disp.matr.colSums
+which(disp.matr.colSums>0)
+Occupied.Pops
+disp.matr[,Occupied.Pops]
+colSums(disp.matr[,Occupied.Pops])
+sum(disp.matr[,316]
+)
+sum(disp.matr[,324])
+sum(disp.matr[,350])
+mean(colSums(disp.matr[,Occupied.Pops]))
+mean(colSums(disp.matr))
+colSums(disp.matr)
+ls()
+Occupied.Pops
+length(Occupied.Pops)
+colSums(disp.matr[,Occupied.Pops])
+mp$mp.file$PopData_df
+head(mp$mp.file$PopData_df)
+which(mp$mp.file$PopData_df$InitAbund > 0)
+which(mp$mp.file$PopData_df$K > 0)
+mp$mp.file$PopData_df[1:40]
+mp$mp.file$PopData_df[1:40,]
+ls()
+mp.in <- mp$mp.file[1:52]
+pop.t0 <- which(mp.in$PopData_df$K > 0)
+pop.t0
+pops.t0.Ngt0 <- which( mp.in$PopData_df$InitAbund > 0 )
+pops.t0.Ngt0
+disp.matr(1:33,pops.t0.Ngt0)
+disp.matr[1:33,pops.t0.Ngt0]
+disp.matr[pop.t0,pops.t0.Ngt0]
+disp.matr[,pops.t0.Ngt0]
+pops.t0.Ngt0
+Occupied.Pops
+ls()
+colSums(disp.matr[,Occupied.Pops])
+disp.matr[pops.t0,pops.t0.Ngt0]
+pops.t0 <- which( mp.in$PopData_df$K > 0 )
+pops.t0.Ngt0 <- which( mp.in$PopData_df$InitAbund > 0 )
+disp.matr[pops.t0,pops.t0.Ngt0]
+disp.matr.sub <- disp.matr[pops.t0,pops.t0.Ngt0]
+disp.t0.colSums <- apply( disp.matr.sub, 2, sum)
+disp.t0.colSums
+res.summ$mean.t0.disp.rate <- mean( disp.t0.colSums )
+res.summ <- vector()
+res.summ$mean.t0.disp.rate <- mean( disp.t0.colSums )
+res.summ
+q()
+source('sensitivity.setup.r')
+sensitivity.setup('./')
+snpl.f <- '/Users/mlammens/Dropbox/RA-FL-Shore-Birds/SensitivityAnalysis/FLSNPL_NoCC_Ceiling/snpl1.mp'
+bmtu.f <- '/Users/mlammens/Dropbox/RA-Sensitivity/Examples/BMTU/Tortoise/LEV/BMTU1.mp'
+mp <- mp.read.results(bmtu.f)
+mp.res <- mp$mp.file$results
+mp.in <- mp$mp.file[1:52]
+head(mp.in$PopData_df)
+mp.results( bmtu.f, spatial=TRUE )
+dim(mp.in$DispMatr)
+?col
+which(mp.in$DispMatr > 0)
+col(mp.in$DispMatr)[which(mp.in$DispMatr > 0)]
+row(mp.in$DispMatr)[which(mp.in$DispMatr > 0)]
+mp.in$DispMatr[311,]
+mp.in$PopData_df[311,]
+mp.in$PopData_df[202,]
+mp.in$PopData_df$Name
+mp.in$PopData_df$name
+sensitivity.setup('./')
+bmtu.res <- mp.results( bmtu.f, spatial=TRUE )
+bmtu.res
+snpl.res <- mp.results( snpl.f, spatial=TRUE )
+snpl.res
+write.csv( snpl.res, 'test.csv')
+sensitivity.setup('./')
+snpl.res <- mp.results( snpl.f, spatial=TRUE )
+disp.matr
+mp.in$PopData_df
+n
+q
+Q
+sensitivity.setup('./')
+snpl.res <- mp.results( snpl.f, spatial=TRUE )
+c
+sensitivity.setup('./')
+snpl.res <- mp.results( snpl.f, spatial=TRUE )
+write.csv( snpl.res, 'test.csv')
+ls()
+mp.snpl <- mp.read.results( snpl.f )
+disp.matr <- mp.snpl$mp.file$DispMatr
+disp.matr
+colSums(disp.matr)
+mean(colSums(disp.matr))
+snpl.f
+mp.snpl$mp.file$PopData_df
+pops.t0.Ngt0 <- which( mp.snpl$mp.file$PopData_df$InitAbund > 0 )
+pops.t0.Ngt0
+dm.colSums <- colSums(disp.matr)
+dm.colSums
+mean(dm.colSums)
+mean(dm.colSums[pops.t0.Ngt0])
+sensitivity.setup('./')
+snpl.res <- mp.results( snpl.f, spatial=TRUE )
+sensitivity.setup('./')
+snpl.res <- mp.results( snpl.f, spatial=TRUE )
+write.csv( snpl.res, 'test_new.csv')
+length(snpl.res)
+snpl.res[50:55]
+q()
+ls()
+exit
+q()
+q()
