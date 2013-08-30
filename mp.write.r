@@ -141,29 +141,42 @@ if ( !mp.new$UseCorrDistFunc ) {
   write.table( mp.new$CorrMatr, file = mp.new.file, append=TRUE, sep = ",", eol = ",\n", row.names=FALSE, col.names=FALSE, quote=FALSE )
 }
 
+
+####################### KTS: changed to accommodate multiple stage matrices: 8/30/2013
+
 # Stage matrix parameters
-write( "1 type(s) of stage matrix", file = mp.new.file, append = TRUE )
-# Matrix name
-write( mp.new$StMatr[[1]]$StMatrName, file = mp.new.file, append = TRUE )
-# Survival multiplier
-write( mp.new$StMatr[[1]]$StMatrSurvMult, file = mp.new.file, append = TRUE )
-# Fecundity multiplier
-write( mp.new$StMatr[[1]]$StMatrFecMult, file = mp.new.file, append = TRUE )
-# Zero line
-write( 0, file = mp.new.file, append = TRUE )
-# Stage matrix
-for ( stage in 1:mp.new$Stages ) {
-  write( mp.new$StMatr[[1]]$Matr[stage, ], file = mp.new.file, append = TRUE, ncolumns = mp.new$Stages )
+templine <- paste(mp.new$StMatrNumber," type(s) of stage matrix", sep = "")   
+write( templine, file = mp.new.file, append = TRUE )
+
+for(matr in 1: mp.new$StMatrNumber){
+	# Matrix name
+	write( mp.new$StMatr[[matr]]$StMatrName, file = mp.new.file, append = TRUE )
+	# Survival multiplier
+	write( mp.new$StMatr[[matr]]$StMatrSurvMult, file = mp.new.file, append = TRUE )
+	# Fecundity multiplier
+	write( mp.new$StMatr[[matr]]$StMatrFecMult, file = mp.new.file, append = TRUE )
+	# Zero line
+	write( 0, file = mp.new.file, append = TRUE )
+	# Stage matrix
+	for ( stage in 1:mp.new$Stages ) {
+	  write( mp.new$StMatr[[matr]]$Matr[stage, ], file = mp.new.file, append = TRUE, ncolumns = mp.new$Stages )
+	}
 }
 
 # Standard deviation matrix parameters
-write( "1 type(s) of st.dev. matrix", file = mp.new.file, append = TRUE )
-# SD Matrix name
-write( mp.new$SDMatr[[1]]$SDMatrName, file = mp.new.file, append = TRUE )
-# SD Matrix
-for ( stage in 1:mp.new$Stages ) {
-  write( mp.new$SDMatr[[1]]$Matr[stage, ], file = mp.new.file, append = TRUE, ncolumns = mp.new$Stages )
+templine <- paste(mp.new$SDMatrNumber," type(s) of st.dev. matrix", sep = "")   
+write( templine, file = mp.new.file, append = TRUE )
+
+for(matr in 1:mp.new$SDMatrNumber){
+	# SD Matrix name
+	write( mp.new$SDMatr[[matr]]$SDMatrName, file = mp.new.file, append = TRUE )
+	# SD Matrix
+	for ( stage in 1:mp.new$Stages ) {
+	  write( mp.new$SDMatr[[matr]]$Matr[stage, ], file = mp.new.file, append = TRUE, ncolumns = mp.new$Stages )
+	}
 }
+
+########################### END KTS CHANGES
 
 # Constraints matrix
 write( "Constraints Matrix", file = mp.new.file, append = TRUE )

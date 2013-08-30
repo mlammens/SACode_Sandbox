@@ -426,11 +426,11 @@ allSDMatr <- sdMatrNumber * oneSDMatr # The number of lines of information for a
 # Extract from mpFile all of the lines of information for all of the matrices
 AllSDMatrLines <- mpFile[ (sdMatrLine + 1):(sdMatrLine + 1 + allSDMatr) ]
 #
-AllSDMatr <- vector('list',length=0) # Create an empty list of stage matrices
+AllSDMatr <- vector('list',length=0) # Create an empty list of std deviation matrices
 for ( matr in 1:mp.file$SDMatrNumber ) {
   LineAdd <- matr - 1 # Addition factor to skip to the lines associated with the matrix of interest
   # SDMatrName: Name of the st.dev. matrix
-  SDMatr$SDMatrName <- AllStMatrLines[ 1 + (LineAdd*oneSDMatr) ]
+  SDMatr$SDMatrName <- AllSDMatrLines[ 1 + (LineAdd*oneSDMatr) ]
   # Matr: a matrix object of numeric values
   dumbMatr <- AllSDMatrLines[ (2 + (LineAdd*oneSDMatr)):( (1 + mp.file$Stages) + (LineAdd*oneSDMatr) ) ]
   SDMatr$Matr <- matrix(as.numeric(unlist(strsplit( dumbMatr,' ' ))), nrow = mp.file$Stages, byrow = TRUE)
