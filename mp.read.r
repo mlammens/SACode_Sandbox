@@ -292,15 +292,22 @@ if ( metaVer == 50 ) {
     PopData$RelDisp <- popLine[25]
     PopData$RelVarFec <- popLine[26]
     PopData$RelVarSurv <- popLine[27]
+#     ## Look for user defined density dependence parameters
+#     if (length(popLine)>27){
+#       for (udd_par in 1:(length(popLine)-27)){
+#         PopData$UserDef
+#       }
+#     }
     AllPopData[[pop]] <- PopData # Add PopData to full list of population data
   }
 }
 mp.file$PopList <- AllPopData
 # Create population data data.frame
 PopData_df <- read.csv( mpFilePath, header=FALSE, skip=44, nrows=PopNumber )
+###browser()
 # Only use as many columns as there are elements in the PopData_df_rownames.  The rest of the columns
 # are associated with user defined density dependence parameters, not used at this time.
-PopData_df <- PopData_df[1:length(PopData_df_rownames)]
+#PopData_df <- PopData_df[1:length(PopData_df_rownames)]
 # Turn NAs into empty strings
 PopData_df[is.na(PopData_df)] <- ''
 # Assign columns names
