@@ -231,6 +231,12 @@ pop.kch.include.line <- grep('pop.kch.include', sens.config.vals)
 pop.kch.include <- unlist(strsplit( sens.config.vals[ pop.kch.include.line ], split='=' ))
 pop.kch.include <- as.logical( pop.kch.include[2] )
 #
+# Read user.defined.dd: TRUE/FALSE - Include user defined d-d parameters stored in PopData_df.
+# information regarding this option
+user.defined.dd.line <- grep('user.defined.dd', sens.config.vals)
+user.defined.dd <- unlist(strsplit( sens.config.vals[ user.defined.dd.line ], split='=' ))
+user.defined.dd <- as.logical( user.defined.dd[2] )
+#
 # ----------------------------------------------------------------------------------------------- #
 # Use mp.read.r function to read *.mp files and convert into a sorted 'list' structure.
 # For more information on the sorted mp.read list structure, see the 'mp.read.r' function
@@ -456,7 +462,8 @@ if ( all( noChange == TRUE ) ) {
     # Population specific information:
     # - One for initial abundance 
     # - One for MaxR
-    potential.var.cnt[28] <- 2
+    # - One for User defined density dependent parameters
+    potential.var.cnt[28] <- 3
     # Add one additional if pop.kch.include is true
     if( pop.kch.include ){ potential.var.cnt[28] <- 3 }
   } # End 'if pop.num == pop.num.high' loop
@@ -573,7 +580,18 @@ if ( all( noChange == TRUE ) ) {
         PopNew_df$MaxR <- MaxR_New
         uni.rv <- uni.rv[-1]
         ####print('uni.rv after maxR'); print(uni.rv)
-
+        
+        ## -------------------------------------------------------------------- ##
+        # User defined density dependence parameters
+        ###browser()
+        if ( user.defined.dd ){
+          # Determine UDD pars
+          udd_pars <- grep(pattern='udd',names(PopLow_df))
+          udd_pars_new <- ((PopHigh_df[udd_pars]-PopLow_df[udd_pars])*uni.rv[1]) + PopLow_df[udd_pars]
+          PopNew_df[udd_pars] <- udd_pars_new
+          uni.rv <- uni.rv[-1]
+        }
+        
         # Set mp.new$PopList to PopNew_df
         # Note: this changes the structure of this list element, from a nested list of lists to a 
         #  data frame object

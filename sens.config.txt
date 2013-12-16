@@ -77,4 +77,7 @@ pop.kch.include = TRUE
 # Include kch files when dealing with population carrying capacity parameters.  This is an important option
 # when dealing with population K that may change through time.  If TRUE, then a set of *KCH files
 # associated with one of the mp.files will be selected randomly.
-
+#
+user.defined.dd = FALSE
+# Include user defined density dependence parameters (stored in the population information data.frame)
+# in parameters that are varied

@@ -305,11 +305,18 @@ mp.file$PopList <- AllPopData
 # Create population data data.frame
 PopData_df <- read.csv( mpFilePath, header=FALSE, skip=44, nrows=PopNumber )
 ###browser()
-# Only use as many columns as there are elements in the PopData_df_rownames.  The rest of the columns
-# are associated with user defined density dependence parameters, not used at this time.
-#PopData_df <- PopData_df[1:length(PopData_df_rownames)]
+### Only use as many columns as there are elements in the PopData_df_rownames.  The rest of the columns
+### are associated with user defined density dependence parameters, not used at this time.
+### PopData_df <- PopData_df[1:length(PopData_df_rownames)]
 # Turn NAs into empty strings
 PopData_df[is.na(PopData_df)] <- ''
+# Check if PopData_df includes user defined d-d values
+if (ncol(PopData_df)>27){
+  # Get the number of userd defined d-d pars
+  Num_udd_pars <- ncol(PopData_df)-27
+  udd_names <- paste('udd_',1:Num_udd_pars,sep='')
+  PopData_df_rownames <- c(PopData_df_rownames,udd_names)
+}
 # Assign columns names
 names(PopData_df) <- PopData_df_rownames
 ###browser()
