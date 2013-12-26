@@ -38,16 +38,19 @@ mp.results <- function( mpFile, spatial=FALSE, mac=FALSE, ptc=FALSE, ptcFiles='n
 #
 ###################################################################################################
 # Inform the user that mp.results has begun
-print(paste('Begin mp.results funtion with file: ', mpFile))
+#print(paste('Begin mp.results funtion with file: ', mpFile))
   
-# Check that *.mp file exists
-if ( !file.exists( mpFile ) ){
-  stop( paste( 'Did not find *.mp file:', mpFile) )
-}
+### FRAL Specific Change - To analyze these data I need to have already read the mpFile
+
+# # Check that *.mp file exists
+# if ( !file.exists( mpFile ) ){
+#   stop( paste( 'Did not find *.mp file:', mpFile) )
+# }
 
 # Read *.mp file using mp.read.results.r.  If the file does not contain results
 # it will be reported in the read script.
-mp <- mp.read.results( mpFile )
+#mp <- mp.read.results( mpFile )
+mp <- mpFile
 
 # Get the *.mp parameter inputs
 mp.in <- mp$mp.file[1:52]
@@ -70,7 +73,8 @@ Thr.50 <- res.summ$metapop.initab / 2
 if( mac ) {
   # WARNING: Running GenTime on Mac or Linux requires a Wine installation on the system
   # and the call to the program can be temperamental depending on syntax used.
-  wine <- '/Applications/Wine.app/Contents/Resources/bin/wine' # Works for my Mac
+  #wine <- '/Applications/Wine.app/Contents/Resources/bin/wine' # Works for my Mac
+  wine <- '/opt/local/bin/wine'
   # Assuming GenTime.exe is in same directory as scripts
   gen.exe <- paste( sens.base.dir, 'GenTime.exe ', sep='')
   gen.call <- paste( wine, gen.exe , '"', mpFile , '"' )
@@ -131,7 +135,7 @@ dd.eig <- c('EX','CE','EA','CA')
 if ( any( dd.type == dd.eig )) {
   res.summ$GrowthRt <- res.summ$EigenVal
 } else {
-  # Assume that if dd.type is not in dd.eig, then use Rmax.  This will iclude
+  # Assume that if dd.type is not in dd.eig, then use Rmax.  This will include
   # user defined dd.type
   res.summ$GrowthRt <- res.summ$Rmax
 }
@@ -322,7 +326,7 @@ res.summ$disp.dist.func.a <- mp.in$DispDistFunc[1]
 # Get average dispersal distance, b value from Disp. Dist. Func.
 res.summ$avg.disp.dist.b <- mp.in$DispDistFunc[2]
 # Get 'c' value from Disp. Dist. Func
-disp.dist.func.c <- mp.in$DispDistFunc[3]
+res.summ$disp.dist.func.c <- mp.in$DispDistFunc[3]
 # Get max dispersal distance, Dmax value from Disp. Dist. Func.
 res.summ$max.disp.dist.Dmax <- mp.in$DispDistFunc[4]
 # ----------------------------------------------------------------------------------------------- #

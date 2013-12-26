@@ -590,6 +590,10 @@ if ( all( noChange == TRUE ) ) {
           udd_pars_new <- ((PopHigh_df[udd_pars]-PopLow_df[udd_pars])*uni.rv[1]) + PopLow_df[udd_pars]
           PopNew_df[udd_pars] <- udd_pars_new
           uni.rv <- uni.rv[-1]
+        } else {
+          ### FRAL specific addition ###
+          # Remove the random variable generated to change UDD pars
+          uni.rv <- uni.rv[-1]
         }
         
         # Set mp.new$PopList to PopNew_df
@@ -769,6 +773,8 @@ if ( all( noChange == TRUE ) ) {
     
     # Write a line to the Windows Batch script that will run all of the new metapop files
     batch.line <- paste( 'CALL RunMP', new.out.name, '/RUN=YES', sep = " " )
+    ### FRAL specific line ###
+    #batch.line <- paste( 'CALL RunLabMP', new.out.name, '/RUN=YES', sep = " " )
     print( paste( "Writing a new line to batch file: ", b.file ) )
     write( batch.line, file = b.file, append = TRUE )
     
