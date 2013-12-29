@@ -553,10 +553,14 @@ mp.file$stepsize <- as.numeric( mpFile[ mgmntLine + NPopManage + 3 ] )
 # The last element of the list is the population data data.frame
 mp.file$PopData_df <- PopData_df
 
-##### END MP INPUT PARAMETERS SECTION #####
+###################################################################################################
+## ******************************************************************** ##
+## END MP INPUT PARAMETERS SECTION
+## ******************************************************************** ##
 ###################################################################################################
 
 ##### BEGIN MP RESULTS READ SECTION ######
+print('mp.read.results: Reading simulation results')
 
 # Get number of replications in simulation
 SimRepLine <- unlist( strsplit ( mpFile[ (res.start + 1) ], ' ' ) )

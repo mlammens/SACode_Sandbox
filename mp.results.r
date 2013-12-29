@@ -1,4 +1,4 @@
-mp.results <- function( mpFile, spatial=FALSE, mac=FALSE, ptc=FALSE, ptcFiles='no file', 
+mp.results <- function( mpFile, mpList, spatial=FALSE, mac=FALSE, ptc=FALSE, ptcFiles='no file', 
   ptcFileIter='', habdyn=FALSE, hdhFile='no file' ) {
 # Calculate various endpoints from the results of an MP simulation as carried out in RAMAS
 # Use for Metapop version 5 and 5.1 file formats
@@ -50,12 +50,12 @@ mp.results <- function( mpFile, spatial=FALSE, mac=FALSE, ptc=FALSE, ptcFiles='n
 # Read *.mp file using mp.read.results.r.  If the file does not contain results
 # it will be reported in the read script.
 #mp <- mp.read.results( mpFile )
-mp <- mpFile
+mp <- mpList
 
 # Get the *.mp parameter inputs
-mp.in <- mp$mp.file[1:52]
+mp.in <- mp[1:52]
 # Get the *.mp results
-mp.res <- mp$mp.file$results
+mp.res <- mp$results
 
 # Created Results Summary (res.summ) list and initiate with length = 0
 res.summ <- vector("list", length=0)
