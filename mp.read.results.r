@@ -574,22 +574,49 @@ names( results$PopAll ) <- c('Mean', 'StDev', 'Min', 'Max')
 # Read in individual population Results
 # PopInd variable is a 3-dim Array of size 'Duration of Simulation' x 4 x 'Number of Populations'
 # The second dimension (length=4) corresponds to the Mean, StDev, Min, and Max population size
+###browser()
 PopInd <- vector()
-for ( pop in 1:PopNumber ){ 
-  # Number of lines past Pop. ALL to skip to start 'pop' values. Last '+1' for Pop. # Label
-  start.pop <- pop.all.line + pop*(mp.file$MaxDur +1) + 1 
-  # Number of lines past Pop. ALL to skip to stop 'pop' values.
-  stop.pop <- (start.pop-1) + mp.file$MaxDur
-  # Get pop values from mpFile. Initially is read as characters
-  pvals <- mpFile[start.pop:stop.pop]
-  # Covert to numeric
-  pvals.num <- as.numeric(unlist(strsplit(pvals, split=" ")))
-  # Convert to matrix.  There are allways four columns in these matrices.
-  pop.vals <- matrix(pvals.num,ncol=4,byrow=TRUE)
-  # Combine new matrix with PopInd matrix
-  PopInd <- c(PopInd,pop.vals)
-}
-results$PopInd <- array( PopInd, dim=c(mp.file$MaxDur,4,PopNumber) )
+
+# Calculate start of individual population information
+pop.ind.start <- pop.all.line + mp.file$MaxDur + 1
+# Calculate end of individual population information
+pop.ind.stop <- pop.all.line + mp.file$MaxDur + (mp.file$MaxDur+1)*PopNumber
+# Identify where the population ID lines are (i.e., the lines that say Pop. #)
+pop.ind.ID.lines <- 
+  seq(from=(pop.all.line+mp.file$MaxDur+1),
+      to=(pop.all.line+mp.file$MaxDur+((mp.file$MaxDur+1)*PopNumber)),
+      by=(mp.file$MaxDur+1))
+# Make a vector of all lines
+pop.ind.lines <- pop.ind.start:pop.ind.stop
+# Remove ID lines
+pop.ind.lines <- setdiff(pop.ind.lines,pop.ind.ID.lines)
+# Get these values
+pvals <- mpFile[pop.ind.lines]
+# Covert to numeric
+pvals.num <- as.numeric(unlist(strsplit(pvals, split=" ")))
+# Convert to matrix.  There are allways four columns in these matrices.
+pop.vals <- matrix(pvals.num,ncol=4,byrow=TRUE)
+# Make a lits of PopNumber matrices
+pop.vals.list <- lapply(split(pop.vals,0:(nrow(pop.vals)-1)%/%mp.file$MaxDur),matrix,nrow=mp.file$MaxDur)
+# Convert the list to an array
+pop.vals.array <- array(unlist(pop.vals.list),c(mp.file$MaxDur,4,PopNumber))
+results$PopInd <- pop.vals.array
+# 
+# for ( pop in 1:PopNumber ){ 
+#   # Number of lines past Pop. ALL to skip to start 'pop' values. Last '+1' for Pop. # Label
+#   start.pop <- pop.all.line + pop*(mp.file$MaxDur +1) + 1 
+#   # Number of lines past Pop. ALL to skip to stop 'pop' values.
+#   stop.pop <- (start.pop-1) + mp.file$MaxDur
+#   # Get pop values from mpFile. Initially is read as characters
+#   pvals <- mpFile[start.pop:stop.pop]
+#   # Covert to numeric
+#   pvals.num <- as.numeric(unlist(strsplit(pvals, split=" ")))
+#   # Convert to matrix.  There are allways four columns in these matrices.
+#   pop.vals <- matrix(pvals.num,ncol=4,byrow=TRUE)
+#   # Combine new matrix with PopInd matrix
+#   PopInd <- c(PopInd,pop.vals)
+# }
+# results$PopInd <- array( PopInd, dim=c(mp.file$MaxDur,4,PopNumber) )
 
 # Read in Occupancy Results - a summary stat. of number of patches occupied at each time step during a simulation
 occ.line <- grep( '^Occupancy', mpFile ) # Note carrot used to capture line that begins with 'Occupancy'
@@ -626,13 +653,18 @@ FinalStAb <- as.matrix( read.table( mpFilePath, skip=fin.stg.ab.line, nrows=fin.
 
 # Seperate out FinalStAb into the different populations
 fsa.first <- 1 # Initial first line for partitioning Final Stage Abundance matrix
-FinalStAb.vect <- vector()
-for ( pop in 1:PopNumber ){
-  fsa.last <- pop*mp.file$Stages
-  FinalStAb.vect <- c( FinalStAb.vect, FinalStAb[ fsa.first:fsa.last, ] )
-  fsa.first <- fsa.last + 1
-}
-results$FinalStAb <- array( FinalStAb.vect, dim=c(mp.file$Stages, 4, PopNumber) )
+
+fsa.list <- lapply(split(FinalStAb,0:(nrow(FinalStAb)-1)%/%mp.file$Stages),matrix,nrow=mp.file$Stages)
+fsa.array <- array(unlist(fsa.list),c(mp.file$Stages,4,PopNumber))
+results$FinalStAb <- fsa.array
+# 
+# FinalStAb.vect <- vector()
+# for ( pop in 1:PopNumber ){
+#   fsa.last <- pop*mp.file$Stages
+#   FinalStAb.vect <- c( FinalStAb.vect, FinalStAb[ fsa.first:fsa.last, ] )
+#   fsa.first <- fsa.last + 1
+# }
+# results$FinalStAb <- array( FinalStAb.vect, dim=c(mp.file$Stages, 4, PopNumber) )
 
 # Read LocExtDur results
 loc.ext.dur.line <- grep( 'LocExtDur', mpFile )
