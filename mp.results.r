@@ -69,34 +69,37 @@ res.summ$metapop.initab <- sum( pop.initab * pop.includeinsum )
 # Calculate 50% decline threshold - to be used later in the script
 Thr.50 <- res.summ$metapop.initab / 2
 # ----------------------------------------------------------------------------------------------- #
-# Call GenTime.exe to determine various calculations of generation time and eigen values
-if( mac ) {
-  # WARNING: Running GenTime on Mac or Linux requires a Wine installation on the system
-  # and the call to the program can be temperamental depending on syntax used.
-  #wine <- '/Applications/Wine.app/Contents/Resources/bin/wine' # Works for my Mac
-  wine <- '/opt/local/bin/wine'
-  # Assuming GenTime.exe is in same directory as scripts
-  gen.exe <- paste( sens.base.dir, 'GenTime.exe ', sep='')
-  gen.call <- paste( wine, gen.exe , '"', mpFile , '"' )
-  gen <- system( gen.call, intern=TRUE, ignore.stderr = TRUE )
-  gen <- strsplit( gen, " ")
-  gen <- unlist( lapply( gen, as.numeric ) )
-  res.summ$Gen.Abar <- gen[1]
-  res.summ$Gen.Mu1 <- gen[2]
-  res.summ$Gen.Tgen <- gen[3]
-  res.summ$EigenVal <- gen[4]
-} else {
-  # Calling GenTime can be temperamental depending on syntax used.
-  gen.call <- paste( sens.base.dir,'GenTime ', '"', mpFile , '"',sep="" )
-  #print( paste('GenTime.exe called as: ', gen.call) ) ### DEBUG LINE
-  gen <- system( gen.call, intern = TRUE )
-  gen <- strsplit( gen, " ")
-  gen <- unlist( lapply( gen, as.numeric ) )
-  res.summ$Gen.Abar <- gen[1]
-  res.summ$Gen.Mu1 <- gen[2]
-  res.summ$Gen.Tgen <- gen[3]
-  res.summ$EigenVal <- gen[4]
-}
+# # Call GenTime.exe to determine various calculations of generation time and eigen values
+# if( mac ) {
+#   # WARNING: Running GenTime on Mac or Linux requires a Wine installation on the system
+#   # and the call to the program can be temperamental depending on syntax used.
+#   #wine <- '/Applications/Wine.app/Contents/Resources/bin/wine' # Works for my Mac
+#   wine <- '/opt/local/bin/wine'
+#   # Assuming GenTime.exe is in same directory as scripts
+#   gen.exe <- paste( sens.base.dir, 'GenTime.exe ', sep='')
+#   gen.call <- paste( wine, gen.exe , '"', mpFile , '"' )
+#   gen <- system( gen.call, intern=TRUE, ignore.stderr = TRUE )
+#   gen <- strsplit( gen, " ")
+#   gen <- unlist( lapply( gen, as.numeric ) )
+#   res.summ$Gen.Abar <- gen[1]
+#   res.summ$Gen.Mu1 <- gen[2]
+#   res.summ$Gen.Tgen <- gen[3]
+#   res.summ$EigenVal <- gen[4]
+# } else {
+#   # Calling GenTime can be temperamental depending on syntax used.
+#   gen.call <- paste( sens.base.dir,'GenTime ', '"', mpFile , '"',sep="" )
+#   print( paste('GenTime.exe called as: ', gen.call) ) ### DEBUG LINE
+#   gen <- system( gen.call, intern = TRUE )
+#   gen <- strsplit( gen, " ")
+#   gen <- unlist( lapply( gen, as.numeric ) )
+#   res.summ$Gen.Abar <- gen[1]
+#   res.summ$Gen.Mu1 <- gen[2]
+#   res.summ$Gen.Tgen <- gen[3]
+#   res.summ$EigenVal <- gen[4]
+# }
+## Use 'popbio' package functions to get generation time and eigen value
+res.summ$EigenVal <- eigen.analysis(mp.in$StMatr[[1]]$Matr)$lambda1
+res.summ$GenTime <- generation.time(mp$StMatr[[1]]$Matr)
 
 # ----------------------------------------------------------------------------------------------- #
 # Density Dependence Factors

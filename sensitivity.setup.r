@@ -33,3 +33,4 @@ load( paste(sens.base.dir,'mp.guide.Rdata',sep=""), .GlobalEnv )
 # Load necessary packages
 library('fields')
 library('lhs')
+library('popbio')
