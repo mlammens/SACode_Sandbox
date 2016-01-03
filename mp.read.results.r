@@ -277,7 +277,7 @@ if ( metaVer == 50 ) {
     PopData$RelDisp <- popLine[25]
     AllPopData[[pop]] <- PopData # Add PopData to full list of population data
   }
-} else if ( metaVer >= 51 ) {
+} else if ( metaVer %in% c(51,60) ) {
   PopData_df_rownames <- c("name","X_coord","Y_coord","InitAbund","DensDep","MaxR","K","Ksdstr","Allee","KchangeSt","DD_Migr","Cat1.Multiplier","Cat1.Prob","IncludeInSum","StageMatType","RelFec","RelSur","localthr","Cat2.Multiplier","Cat2.Prob","SDMatType","TargetPopK","Cat1.TimeSinceLast","Cat2.TimeSinceLast","RelDisp","RelVarFec","RelVarSurv")
   for ( pop in 1:PopNumber ) {
     popLine <- unlist(strsplit( PopRawData[ pop ], ',' ))
@@ -632,6 +632,7 @@ names( results$LocExtDur ) <- c('Mean','StDev','Max','Min')
 # First line is the total harvest results, the second line is the number of lines dedicated
 # to individual time units for harvest
 harvest.line <- grep( '^Harvest', mpFile )
+harvest.line <- harvest.line[length(harvest.line)]
 results$HarvestTot <- read.table( mpFilePath, skip=harvest.line, nrow=1 )
 names( results$HarvestTot ) <- c('Mean','StDev','Min','Max')
 # Determine number of time steps with harvest data
